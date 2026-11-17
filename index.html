@@ -51,12 +51,15 @@ canvas{display:block;width:100%;height:320px;border:1px solid var(--bd);border-r
 .eq{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin:8px 0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.84rem;overflow-x:auto;white-space:pre}
 .crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}.crit div{border:1px solid var(--bd);border-radius:10px;padding:10px 12px;background:var(--bg);font-size:.88rem}.crit b{display:block;margin-bottom:2px}
 .nt{color:var(--mut);font-size:.88rem;margin:0 0 10px}
+main>h1{font-size:clamp(1.6rem,5.2vw,2.3rem);line-height:1.15;letter-spacing:-.01em;text-align:center;text-wrap:balance;margin:14px auto 6px;max-width:20ch;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+main>h1::after{content:"";display:block;width:64px;height:4px;border-radius:4px;margin:14px auto 0;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.sub{text-align:center;max-width:620px;margin:0 auto 18px;font-size:.95rem;text-wrap:balance}
 </style>
 </head>
 <body>
 <main>
 <h1>Simulador de tanque de aire comprimido</h1>
-<p class="sub">Llenado, consumo, fugas y control on/off con histéresis. Las presiones mostradas son manométricas; el cálculo usa presión absoluta. <a href="modo_informe.html" style="color:var(--acc)">Modo informe: modelo del Python, escenarios y solución analítica →</a></p>
+<p class="sub">Llenado, consumo, fugas y control on/off con histéresis. Las presiones mostradas son manométricas; el cálculo usa presión absoluta.</p>
 <div id="alert" class="alert ok"></div>
 
 <section class="card hero">
@@ -100,14 +103,23 @@ canvas{display:block;width:100%;height:320px;border:1px solid var(--bd);border-r
       <linearGradient id="tk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa2ff" stop-opacity=".16"/><stop offset="1" stop-color="#1f6feb" stop-opacity=".38"/></linearGradient>
       <linearGradient id="mt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--metal)"/><stop offset="1" stop-color="#333c48"/></linearGradient>
       <linearGradient id="cy" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8e9cad"/><stop offset=".5" stop-color="#5d6b7d"/><stop offset="1" stop-color="#3d4756"/></linearGradient>
+      <linearGradient id="tkm" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".3" stop-color="#fff" stop-opacity=".03"/><stop offset=".72" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".24"/></linearGradient>
+      <linearGradient id="hd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b99ab"/><stop offset="1" stop-color="#2f3844"/></linearGradient>
     </defs>
     <!-- Tanque y manómetro -->
     <rect x="265" y="70" width="145" height="180" rx="34" fill="url(#tk)" stroke="var(--bd)"/>
     <rect id="lvl" x="268" y="247" width="139" height="0" rx="30" fill="var(--acc)" opacity=".25"/>
+    <rect x="265" y="70" width="145" height="180" rx="34" fill="url(#tkm)" pointer-events="none"/>
+    <g fill="none" stroke="var(--metal)" stroke-width="1.4" opacity=".55"><path d="M271 104Q337 112 404 104"/><path d="M271 216Q337 224 404 216"/></g>
+    <rect id="sv" x="374" y="57" width="12" height="14" rx="2" fill="#b8862b" stroke="#6b4e12"/><rect x="371" y="52" width="18" height="6" rx="3" fill="#8a6a1d"/>
+    <text x="380" y="46" text-anchor="middle" font-size="9" fill="var(--mut)">Seguridad</text>
     <text x="337" y="58" text-anchor="middle" font-size="13" fill="var(--mut)">Tanque</text>
     <text id="tl" x="337" y="160" text-anchor="middle" font-size="20" font-weight="700" fill="var(--text)">0.00 bar</text>
     <text x="337" y="180" text-anchor="middle" font-size="11" fill="var(--mut)">presión manométrica</text>
     <circle cx="337" cy="278" r="27" fill="var(--card)" stroke="var(--bd)"/>
+    <circle cx="337" cy="278" r="27" fill="none" stroke="var(--metal)" stroke-width="3"/>
+    <g stroke="var(--mut)" stroke-width="1.3" stroke-linecap="round"><line x1="313.3" y1="271.7" x2="319.1" y2="273.2"/><line x1="315.8" y1="265.8" x2="318.8" y2="267.5"/><line x1="319.7" y1="260.7" x2="322.2" y2="263.2"/><line x1="324.8" y1="256.8" x2="326.5" y2="259.8"/><line x1="330.7" y1="254.3" x2="331.6" y2="257.7"/><line x1="337.0" y1="253.5" x2="337.0" y2="259.5"/><line x1="343.3" y1="254.3" x2="342.4" y2="257.7"/><line x1="349.2" y1="256.8" x2="347.5" y2="259.8"/><line x1="354.3" y1="260.7" x2="351.8" y2="263.2"/><line x1="358.2" y1="265.8" x2="355.2" y2="267.5"/><line x1="360.7" y1="271.7" x2="354.9" y2="273.2"/></g>
+    <text x="337" y="297" text-anchor="middle" font-size="8" fill="var(--mut)">bar</text>
     <line id="nd" x1="337" y1="278" x2="337" y2="256" stroke="var(--bad)" stroke-width="3" stroke-linecap="round"/>
     <circle cx="337" cy="278" r="3" fill="var(--text)"/>
     <!-- Base -->
@@ -118,18 +130,29 @@ canvas{display:block;width:100%;height:320px;border:1px solid var(--bd);border-r
       <rect x="20" y="235" width="92" height="82" rx="12" fill="url(#mt)" stroke="#333c48"/>
       <g stroke="#333c48" stroke-width="2" opacity=".7"><line x1="30" y1="248" x2="102" y2="248"/><line x1="30" y1="262" x2="102" y2="262"/><line x1="30" y1="290" x2="102" y2="290"/><line x1="30" y1="304" x2="102" y2="304"/></g>
       <text x="66" y="225" text-anchor="middle" font-size="12" fill="var(--mut)">Motor</text>
+      <rect x="26" y="314" width="22" height="16" rx="3" fill="#333c48"/><rect x="84" y="314" width="22" height="16" rx="3" fill="#333c48"/>
+      <rect x="88" y="224" width="22" height="11" rx="2" fill="#333c48"/><path d="M99 224v-9" stroke="#222b38" stroke-width="3" stroke-linecap="round"/>
       <g transform="translate(66 276)"><circle r="24" fill="#222b38"/>
         <g id="fan" fill="var(--card)" opacity=".85"><path d="M0 0L20 -7A22 22 0 0 1 20 7Z"/><path d="M0 0L20 -7A22 22 0 0 1 20 7Z" transform="rotate(120)"/><path d="M0 0L20 -7A22 22 0 0 1 20 7Z" transform="rotate(240)"/></g>
-        <circle r="5" fill="var(--metal-dark)"/></g>
+        <circle r="5" fill="var(--metal-dark)"/><circle r="25" fill="none" stroke="#222b38" stroke-width="3"/><g stroke="#9aa7b6" stroke-width=".8" opacity=".55" fill="none"><circle r="15"/><circle r="8"/><line x1="-24" y1="0" x2="24" y2="0"/><line x1="0" y1="-24" x2="0" y2="24"/><line x1="-17" y1="-17" x2="17" y2="17"/><line x1="-17" y1="17" x2="17" y2="-17"/></g></g>
     </g>
     <!-- Bomba: cilindro -->
-    <g id="pump"><rect x="163" y="150" width="54" height="92" rx="8" fill="url(#cy)" stroke="#333c48"/><rect x="163" y="143" width="54" height="9" rx="4" fill="#333c48"/></g>
+    <g id="pump">
+      <path d="M150 236h80v70a14 14 0 0 1-14 14h-52a14 14 0 0 1-14-14z" fill="url(#cy)" stroke="#333c48"/>
+      <circle cx="224" cy="306" r="6" fill="#d9a441" stroke="#333c48" stroke-width="1.5"/><circle cx="222" cy="304" r="1.8" fill="#fff" opacity=".7"/>
+      <g fill="#7f8d9f" stroke="#333c48" stroke-width=".6"><rect x="157" y="156" width="66" height="5" rx="2.5"/><rect x="157" y="166" width="66" height="5" rx="2.5"/><rect x="157" y="176" width="66" height="5" rx="2.5"/><rect x="157" y="186" width="66" height="5" rx="2.5"/><rect x="157" y="196" width="66" height="5" rx="2.5"/><rect x="157" y="206" width="66" height="5" rx="2.5"/><rect x="157" y="216" width="66" height="5" rx="2.5"/><rect x="157" y="226" width="66" height="5" rx="2.5"/></g>
+      <rect x="163" y="150" width="54" height="92" rx="8" fill="url(#cy)" stroke="#333c48"/>
+      <rect x="158" y="134" width="64" height="18" rx="5" fill="url(#hd)" stroke="#222b38"/>
+      <g fill="#c9d4e2" stroke="#222b38" stroke-width=".6"><circle cx="166" cy="143" r="2.2"/><circle cx="182" cy="143" r="2.2"/><circle cx="198" cy="143" r="2.2"/><circle cx="214" cy="143" r="2.2"/></g>
+      <rect x="130" y="137" width="28" height="13" rx="5" fill="#46525f" stroke="#222b38"/><path d="M137 139v9M143 139v9M149 139v9" stroke="#9aa7b6" stroke-width="1.2"/>
+      <text x="144" y="128" text-anchor="middle" font-size="9" fill="var(--mut)">Filtro</text>
+    </g>
     <!-- Polea del motor, volante y correa -->
     <g transform="translate(112 276)"><circle r="19" fill="#333c48"/><circle r="7" fill="var(--card)"/>
       <g id="pSp" stroke="var(--card)" stroke-width="2.5"><line x1="-15" y1="0" x2="15" y2="0"/><line x1="0" y1="-15" x2="0" y2="15"/><line x1="-11" y1="-11" x2="11" y2="11"/><line x1="-11" y1="11" x2="11" y2="-11"/></g></g>
     <path id="belt" d="M112 257L190 242A34 34 0 0 1 190 310L112 295A19 19 0 0 1 112 257Z" fill="none" stroke="#222b38" stroke-width="6" stroke-dasharray="7 5" opacity=".8"/>
-    <g transform="translate(190 276)"><circle r="34" fill="#333c48"/><circle r="24" fill="var(--bg)" opacity=".2"/>
-      <g id="fSp" stroke="var(--card)" stroke-width="3.5" stroke-linecap="round"><line x1="-28" y1="0" x2="28" y2="0"/><line x1="0" y1="-28" x2="0" y2="28"/><line x1="-20" y1="-20" x2="20" y2="20"/><line x1="-20" y1="20" x2="20" y2="-20"/></g></g>
+    <g transform="translate(190 276)"><circle r="34" fill="#333c48"/><circle r="24" fill="var(--bg)" opacity=".2"/><circle r="31" fill="none" stroke="#9aa7b6" stroke-width="1.5" opacity=".6"/>
+      <g id="fSp" stroke="var(--card)" stroke-width="3.5" stroke-linecap="round"><path d="M-9 8L-17 31A33 33 0 0 0 17 31L9 8Z" fill="#1d242e" stroke="none" opacity=".8"/><circle cx="0" cy="-27" r="3" fill="var(--acc2)" stroke="none"/><line x1="-28" y1="0" x2="28" y2="0"/><line x1="0" y1="-28" x2="0" y2="28"/><line x1="-20" y1="-20" x2="20" y2="20"/><line x1="-20" y1="20" x2="20" y2="-20"/></g></g>
     <!-- Biela-manivela y pistón -->
     <rect id="pis" x="168" y="181" width="44" height="22" rx="4" fill="#222b38"/>
     <line id="arm" x1="190" y1="276" x2="190" y2="258" stroke="#c9d4e2" stroke-width="6" stroke-linecap="round"/>
@@ -137,9 +160,9 @@ canvas{display:block;width:100%;height:320px;border:1px solid var(--bd);border-r
     <circle id="pin" cx="190" cy="258" r="5" fill="var(--acc)"/>
     <text id="rpmL" x="190" y="128" text-anchor="middle" font-size="12" font-weight="700" fill="var(--mut)">0 RPM</text>
     <!-- Tubería y válvula -->
-    <path d="M217 168H265" stroke="#5d6b7d" stroke-width="9" stroke-linecap="round"/>
-    <circle id="vv" cx="241" cy="168" r="10" fill="var(--bd)"/>
-    <text x="241" y="150" text-anchor="middle" font-size="10" fill="var(--mut)">Válvula</text>
+    <path d="M222 143H265" stroke="#5d6b7d" stroke-width="9" stroke-linecap="round"/><path d="M222 141H265" stroke="#fff" stroke-width="1.5" opacity=".3"/>
+    <circle id="vv" cx="243" cy="143" r="10" fill="var(--bd)" stroke="#333c48"/><path d="M239 138L249 143L239 148Z" fill="#fff" opacity=".85"/>
+    <text x="243" y="124" text-anchor="middle" font-size="10" fill="var(--mut)">Antirretorno</text>
     <!-- Salida de consumo -->
     <path id="cp" d="M410 170H452" fill="none" stroke="#5d6b7d" stroke-width="9" stroke-linecap="round"/>
     <path d="M452 161L466 170L452 179Z" fill="#5d6b7d"/>
@@ -152,6 +175,7 @@ canvas{display:block;width:100%;height:320px;border:1px solid var(--bd);border-r
     <text x="385" y="322" text-anchor="middle" font-size="10" fill="var(--mut)">Válvula de descarga</text>
     <text id="dvT" x="385" y="335" text-anchor="middle" font-size="10" font-weight="700" fill="var(--mut)">cerrada</text>
     <g id="air"></g>
+    <text x="190" y="388" text-anchor="middle" font-size="11" fill="var(--mut)">Compresor de pistón</text>
     <!-- LED y temperatura -->
     <circle id="led" cx="30" cy="30" r="7" fill="var(--mut)"/>
     <text id="ledT" x="44" y="34" font-size="11" fill="var(--mut)">Apagado</text>
@@ -198,6 +222,8 @@ Gas ideal:        pabs · V = m · R · T          (pabs = patm + pman)
 Equivalente:      dp/dt = (patm / V) · Qneto    (isotérmico)
 Solución/tramo:   p(t) = p0 + (patm / V) · Qneto · (t − t0)   → recta
 Control:          u = 0 si p ≥ pc ;  u = 1 si p ≤ pc − h
+Seguridad:        si p ≥ pmax → u = 0 y se abre la válvula (Qs)
+                  hasta p ≤ pmax − 2.5 bar; luego se rearma solo
 Térmico (opc.):   θ″ + a·θ′ + b·θ = b·Θ·u(t)</div>
 <p class="nt">u(t) = 1 con el compresor encendido; s(t) = 1 cuando el consumo ya está habilitado (tras llegar por primera vez a pc). Qneto = u·Q − s·Qu − Qf.</p>
 <div class="tbl"><table id="varTbl"><tr><th>Símbolo</th><th>Significado</th><th>Unidad</th><th>Valor actual</th></tr></table></div>
@@ -251,12 +277,15 @@ const prm = () => ({V:Math.max(.001,num("volume",100)/1000), qi:getQ(), qu:num("
 function step(dt) {
   const v = prm(), rho = PA/(R*v.T), Told = v.T + (S.th ? S.theta : 0), mMin = PA*v.V/(R*Told);
   let m = Math.max(mMin, (PA+S.p*1e5)*v.V/(R*Told));
-  S.over = S.p >= v.pm;
+  const REARM = 2.5;                                         // bar por debajo de pmax para rearmar el compresor
+  if (S.p >= v.pm) S.over = true;                           // paro de seguridad: compresor detenido y válvula de seguridad abierta
+  else if (S.over && S.p <= Math.max(0.3, v.pm - REARM)) S.over = false;   // la presión bajó: rearme automático
   if (!S.run || S.valve || S.over || S.p >= v.sp) S.on = false;
   else if (S.p <= v.sp - v.hy) S.on = true;                  // histéresis real
   const qv = S.valve ? 0.0035*(PA+S.p*1e5)/PA : 0;
+  const qs = S.over ? 0.003*(PA+S.p*1e5)/PA : 0;           // descarga de la válvula de seguridad
   if (S.p >= v.sp) S.svc = true; else if (S.p <= 0.05) S.svc = false;   // el consumo se habilita al llegar a la presión de corte
-  const net = (S.on ? v.qi : 0) - (S.svc ? v.qu : 0) - v.ql - qv;
+  const net = (S.on ? v.qi : 0) - (S.svc ? v.qu : 0) - v.ql - qv - qs;
   m = Math.max(mMin, m + rho*net*dt);
   if (S.th) { const q = thP(); S.thd += (-q.a*S.thd - q.b*S.theta + q.b*q.Th*(S.on ? 1 : 0))*dt; S.theta += S.thd*dt; }   // 2.º orden
   const Tn = v.T + (S.th ? S.theta : 0);
@@ -270,6 +299,7 @@ function sample(info) { S.h.push({t:S.t, p:S.p, f:info.net, on:S.on, th:S.theta}
 function motor(rd) {
   const tgt = S.on ? 1450 : 0, d = tgt-S.rpm;
   S.rpm = Math.max(0, S.rpm + Math.sign(d)*Math.min(Math.abs(d), (S.on ? 1400 : 900)*rd));   // arranque y frenado graduales
+  if (S.over) S.rpm = 0;                                    // paro de emergencia: el pistón se detiene al instante
   S.ang = (S.ang + S.rpm/60*6.2832*0.1*rd) % 6.2832;
   const amb = num("temp",25), ht = S.on ? Math.min(95, 58+S.p*2.2) : amb;
   S.vt += (ht-S.vt)*Math.min(1, rd*(S.on ? .5 : .25));
@@ -290,6 +320,7 @@ function motor(rd) {
   $("tb").setAttribute("width", 110*clamp((S.vt-amb)/Math.max(1,80-amb),0,1));
   $("tT").textContent = "Temperatura: "+S.vt.toFixed(0)+" °C"; $("oC").textContent = S.vt.toFixed(0)+" °C";
   const st = S.over ? ["--bad","Alarma"] : S.on ? ["--ok","Comprimiendo"] : S.run ? ["--acc2","En espera"] : ["--mut","Apagado"];
+  $("sv").style.fill = S.over ? cv("--bad") : "#b8862b";
   $("led").style.fill = cv(st[0]); $("ledT").textContent = st[1];
 }
 
@@ -300,7 +331,7 @@ function drawScene(info) {
   const Q = getQ(); $("oQ").textContent = Q.toFixed(3)+" m³/s"; $("qL").textContent = (Q*60000).toLocaleString("es-CO",{maximumFractionDigits:0}); $("qM").textContent = (PA/(R*v.T)*Q).toFixed(4);
   $("lP").textContent = p.toFixed(2)+" bar"; $("lC").textContent = v.sp.toFixed(1)+" bar"; $("lR").textContent = (v.sp-v.hy).toFixed(1)+" bar"; $("lM").textContent = v.pm.toFixed(1)+" bar";
   $("oM").textContent = info.mass.toFixed(3)+" kg";
-  $("oS").textContent = S.on ? "Comprimiendo" : S.valve ? "Descargando" : S.run ? "En espera" : "Apagado";
+  $("oS").textContent = S.over ? "Alivio de presión" : S.on ? "Comprimiendo" : S.valve ? "Descargando" : S.run ? "En espera" : "Apagado";
   $("oB").textContent = (info.net >= 0 ? "+" : "")+info.net.toFixed(0)+" L/min";
   $("oT").textContent = S.t < 600 ? S.t.toFixed(0)+" s" : (S.t/60).toFixed(1)+" min";
   $("oE").textContent = S.E.toFixed(1)+" Wh";
@@ -321,6 +352,12 @@ function drawScene(info) {
     $("air").appendChild(k);
     const km = () => { kx += 1.8; ko -= .025; k.setAttribute("cx", kx); k.setAttribute("opacity", Math.max(0, ko)); ko > 0 ? requestAnimationFrame(km) : k.remove(); };
     requestAnimationFrame(km);
+  }
+  if (S.run && S.over && $("air").childElementCount < 70 && Math.random() < .7) {
+    const w = document.createElementNS("http://www.w3.org/2000/svg","circle"); let wx = 380, wy = 52, wo = .85;
+    w.setAttribute("r", 1.8+Math.random()*1.6); w.style.fill = cv("--bad"); $("air").appendChild(w);
+    const wv = () => { wy -= 1.5; wx += .5+Math.random()*.4; wo -= .03; w.setAttribute("cx", wx); w.setAttribute("cy", wy); w.setAttribute("opacity", Math.max(0, wo)); wo > 0 ? requestAnimationFrame(wv) : w.remove(); };
+    requestAnimationFrame(wv);
   }
   if (S.run && (S.on || S.valve) && $("air").childElementCount < 70 && Math.random() < .5) {
     const dis = S.valve, c = document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -373,7 +410,7 @@ function drawTheta() {
 }
 function alertMsg() {
   const e = $("alert"), v = prm(); let k = "ok", t = "Operación dentro del rango configurado.";
-  if (S.over) { k = "bad"; t = "¡Presión máxima alcanzada! El compresor se detuvo por seguridad."; }
+  if (S.over) { k = "bad"; t = "¡Presión máxima alcanzada! Válvula de seguridad abierta y compresor detenido; se rearma solo al bajar 2.5 bar."; }
   else if (S.valve) { k = "warn"; t = "Válvula de descarga abierta: el tanque se está vaciando."; }
   else if (!S.run && S.t === 0) t = "Listo: pulsa Iniciar para comenzar la simulación.";
   else if (S.p >= v.sp) { k = "warn"; t = "Presión de corte alcanzada: compresor en espera."; }
@@ -492,7 +529,7 @@ function pred(){
   g("prM").textContent=e.length>=2?fmtT(e[e.length-1]-e[e.length-2]):"—";
   g("prInt").textContent=net<=1e-12?"Q ≤ Qu + Qf: el compresor no puede sostener el consumo; la presión cae aunque esté encendido.":loss<=1e-12?"Sin consumo ni fuga: la presión no baja y el compresor no vuelve a encender.":"Con estos parámetros el compresor trabaja el "+(100*ton/T).toFixed(1)+" % del tiempo.";
 }
-const rows=[["p(t)","Presión manométrica del tanque","bar (Pa en las ecuaciones)",""],["m(t)","Masa de aire en el tanque","kg",""],["V","Volumen del tanque","L (m³ en las ecuaciones)","volume"],["Q","Caudal de aire que entra con el compresor encendido","m³/s","qNum"],["Qu","Consumo (aire libre)","L/min","use"],["Qf","Fuga (aire libre)","L/min","leak"],["T","Temperatura ambiente","°C (K en las ecuaciones)","temp"],["pc","Presión de corte","bar","setpoint"],["h","Histéresis","bar","hysteresis"],["pmax","Presión máxima segura","bar","maxPressure"],["R, patm","Constante del aire y presión atmosférica","287.05 J/(kg·K); 101325 Pa",""],["ρatm","Densidad del aire atmosférico = patm/(R·T)","kg/m³",""],["θ","Exceso de temperatura del aire = Taire − Tamb","K",""],["a, b, Θ","Parámetros del modelo térmico (valores estimados)","1/s; 1/s²; K","thA,thB,thT"]];
+const rows=[["p(t)","Presión manométrica del tanque","bar (Pa en las ecuaciones)",""],["m(t)","Masa de aire en el tanque","kg",""],["V","Volumen del tanque","L (m³ en las ecuaciones)","volume"],["Q","Caudal de aire que entra con el compresor encendido","m³/s","qNum"],["Qu","Consumo (aire libre)","L/min","use"],["Qf","Fuga (aire libre)","L/min","leak"],["T","Temperatura ambiente","°C (K en las ecuaciones)","temp"],["pc","Presión de corte","bar","setpoint"],["h","Histéresis","bar","hysteresis"],["pmax","Presión máxima segura","bar","maxPressure"],["Qs","Caudal de la válvula de seguridad (solo si p ≥ pmax)","m³/s (aire libre)",""],["R, patm","Constante del aire y presión atmosférica","287.05 J/(kg·K); 101325 Pa",""],["ρatm","Densidad del aire atmosférico = patm/(R·T)","kg/m³",""],["θ","Exceso de temperatura del aire = Taire − Tamb","K",""],["a, b, Θ","Parámetros del modelo térmico (valores estimados)","1/s; 1/s²; K","thA,thB,thT"]];
 const vt=g("varTbl");rows.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML="<td>"+r[0]+"</td><td style='white-space:normal'>"+r[1]+"</td><td>"+r[2]+"</td><td data-v='"+r[3]+"'>—</td>";vt.appendChild(tr);});
 function vals(){vt.querySelectorAll("td[data-v]").forEach(td=>{const k=td.dataset.v;if(!k)return;td.textContent=k.split(",").map(i=>g(i)?g(i).value:"").join("; ");});}
 function tick(){pred();vals();table();draw();}
